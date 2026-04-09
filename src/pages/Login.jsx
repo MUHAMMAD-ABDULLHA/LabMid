@@ -3,28 +3,36 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../Login.css';
 
 function Login() {
+  const baseurl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!formData.email || !formData.password) {
       alert("Please enter both email and password");
       return;
     }
+    try {
+      const response = await fetch (baseurl + "/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      console.log("Login response:", data);
+    } catch (error) {
+      console.error("Login error:", error);
 
-    console.log("Login attempt with:", formData);
-    localStorage.setItem('userEmail', formData.email);
-    navigate('/');
+    }
   };
 
   return (

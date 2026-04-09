@@ -10,10 +10,14 @@ export const registerUser = async (req, res) => {
   // Log the incoming request for debugging
   console.log("Received registration data:", req.body);
   
-  const { fullName, username, email, password, role } = req.body;
+  const { brandName, fullName, username, email, password, role, website, industry, description } = req.body;
+  
+  // For brandAdmin, use brandName as fullName if not provided
+  const actualFullName = fullName || brandName || '';
+  const actualUsername = username || email; // Use email as username if not provided
   
   // Validate required fields
-  if (!fullName || !username || !email || !password || !role) {
+  if (!actualFullName || !actualUsername || !email || !password || !role) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
   
@@ -33,8 +37,8 @@ export const registerUser = async (req, res) => {
     
     // Create the new user (extra fields can be added later if needed)
     const user = await User.create({
-      fullName,
-      username,
+      fullName: actualFullName,
+      username: actualUsername,
       email,
       password: hashedPassword,
       role,
@@ -42,6 +46,7 @@ export const registerUser = async (req, res) => {
     });
     
     res.status(201).json({
+      success: true,
       _id: user._id,
       fullName: user.fullName,
       username: user.username,
@@ -62,6 +67,7 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
     if (user && (await bcrypt.compare(password, user.password))) {
       res.json({
+        success: true,
         _id: user._id,
         fullName: user.fullName,
         username: user.username,

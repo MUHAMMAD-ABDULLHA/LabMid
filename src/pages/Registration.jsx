@@ -13,6 +13,7 @@ function BrandRegistration() {
     industry: "",
     description: ""
   });
+  const baseurl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   const industries = [
     "Fashion & Apparel",
@@ -30,16 +31,31 @@ function BrandRegistration() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords don't match!");
       return;
     }
     console.log("Brand registered:", { ...formData, role: "brandAdmin" });
-    alert("Brand registration successful!");
-    navigate("/login");
-  };
+    try {
+      const response = await fetch(baseurl + "/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, role: "brandAdmin" })
+      });
+      const data = await response.json();
+
+        if (data.success) {
+          alert("Brand registration successful!");
+          alert("Brand registration successful!");
+          navigate("/login");
+        } else {
+          alert("Registration failed: " + data.message);
+        }
+  }catch {
+      alert("An error occurred during registration. Please try again.");
+  }};
 
   return (
     <div className="brand-registration-page">
