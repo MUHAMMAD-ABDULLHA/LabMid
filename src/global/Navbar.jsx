@@ -7,6 +7,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/registration';
+  const isCampaignPage = location.pathname === '/campaigns';
 
   useEffect(() => {
     anime({
@@ -38,6 +39,14 @@ const Navbar = () => {
     }
   };
 
+  const handleLogout = () => {
+    if (window.confirm("Are you sure you want to log out?")) {
+      localStorage.clear();
+      alert("Logged out successfully");
+      navigate("/");
+    }
+  };
+
   return (
     <nav ref={navRef} style={{
       position: 'fixed',
@@ -62,7 +71,7 @@ const Navbar = () => {
 
         {/* Desktop Links */}
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          {!isAuthPage && (
+          {!isAuthPage && !isCampaignPage && (
             <>
               <button onClick={() => handleScroll('features')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, opacity: 0.8, fontSize: '1rem', color: 'inherit', fontFamily: 'var(--font-display)' }}>Features</button>
               <button onClick={() => handleScroll('pricing')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, opacity: 0.8, fontSize: '1rem', color: 'inherit', fontFamily: 'var(--font-display)' }}>Pricing</button>
@@ -71,30 +80,48 @@ const Navbar = () => {
           )}
           
           <div style={{ display: 'flex', gap: '1rem', marginLeft: '1rem' }}>
-            {location.pathname !== '/login' && (
-              <Link to="/login" style={{ 
-                fontWeight: 600, 
-                color: 'var(--accent-primary)', 
-                textDecoration: 'none',
-                padding: '0.5rem 1rem',
-                fontFamily: 'var(--font-display)'
-              }}>
-                Login
-              </Link>
-            )}
-            {location.pathname !== '/registration' && (
-              <Link to="/registration" style={{
+            {isCampaignPage ? (
+              <button onClick={handleLogout} style={{
                 padding: '0.5rem 1.5rem',
                 borderRadius: '50px',
                 backgroundColor: 'var(--accent-primary)',
                 color: 'white',
                 fontWeight: 600,
-                textDecoration: 'none',
-                boxShadow: '0 4px 15px rgba(59, 130, 246, 0.2)',
-                fontFamily: 'var(--font-display)'
+                border: 'none',
+                cursor: 'pointer',
+                fontFamily: 'var(--font-display)',
+                boxShadow: '0 4px 15px rgba(59, 130, 246, 0.2)'
               }}>
-                Register
-              </Link>
+                Logout
+              </button>
+            ) : (
+              <>
+                {location.pathname !== '/login' && (
+                  <Link to="/login" style={{ 
+                    fontWeight: 600, 
+                    color: 'var(--accent-primary)', 
+                    textDecoration: 'none',
+                    padding: '0.5rem 1rem',
+                    fontFamily: 'var(--font-display)'
+                  }}>
+                    Login
+                  </Link>
+                )}
+                {location.pathname !== '/registration' && (
+                  <Link to="/registration" style={{
+                    padding: '0.5rem 1.5rem',
+                    borderRadius: '50px',
+                    backgroundColor: 'var(--accent-primary)',
+                    color: 'white',
+                    fontWeight: 600,
+                    textDecoration: 'none',
+                    boxShadow: '0 4px 15px rgba(59, 130, 246, 0.2)',
+                    fontFamily: 'var(--font-display)'
+                  }}>
+                    Register
+                  </Link>
+                )}
+              </>
             )}
           </div>
         </div>

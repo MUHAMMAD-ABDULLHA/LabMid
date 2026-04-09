@@ -61,7 +61,17 @@ function Login() {
       });
       const data = await response.json();
       console.log("Login response:", data);
-      // Handle success
+      
+      if (data.success) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userRole", data.role);
+        localStorage.setItem("userEmail", data.email);
+        localStorage.setItem("userName", data.fullName);
+        
+        navigate("/campaigns");
+      } else {
+        alert("Login failed: " + data.message);
+      }
     } catch (error) {
       console.error("Login error:", error);
     }

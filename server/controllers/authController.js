@@ -31,19 +31,20 @@ export const registerUser = async (req, res) => {
     // Determine approval based on role
     const isApproved = (role === 'brandAdmin' || role === 'influencer') ? false : true;
     
-    // Hash the password before saving
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    
-    // Create the new user (extra fields can be added later if needed)
-    const user = await User.create({
+    console.log("Creating user object for:", email);
+    // Create new user instance
+    const user = new User({
       fullName: actualFullName,
       username: actualUsername,
       email,
-      password: hashedPassword,
+      password, // model middleware handles hashing
       role,
       isApproved,
     });
+    
+    console.log("Saving user to database...");
+    await user.save();
+    console.log("User saved successfully with email:", user.email);
     
     res.status(201).json({
       success: true,
@@ -64,8 +65,18 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
+    console.log("Login attempt for email:", email);
     const user = await User.findOne({ email });
-    if (user && (await bcrypt.compare(password, user.password))) {
+    if (!user) {
+      console.log("User not found for email:", email);
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+    
+    console.log("User found, checking password...");
+    const isMatch = await user.matchPassword(password);
+    
+    if (isMatch) {
+      console.log("Password matched, generating token...");
       res.json({
         success: true,
         _id: user._id,
@@ -77,6 +88,7 @@ export const loginUser = async (req, res) => {
         token: generateToken(user._id),
       });
     } else {
+      console.log("Password comparison failed");
       res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (error) {
