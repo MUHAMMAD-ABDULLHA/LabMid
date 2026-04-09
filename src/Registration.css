@@ -1,138 +1,192 @@
-/* BrandRegistration.css */
-.brand-registration-page {
-  background-color: #f8fafc;
+/* Registration.css - Luxury Minimal Redesign */
+.reg-wrapper {
+  display: flex;
   min-height: 100vh;
-  padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-primary);
+  overflow: hidden;
+  font-family: var(--font-body);
 }
 
-.registration-container {
-  max-width: 800px;
-  margin: 0 auto;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  padding: 2rem;
-}
-
-.registration-header {
-  margin-bottom: 2rem;
-  text-align: center;
+/* Visual Side */
+.reg-visual-side {
+  flex: 1.2;
+  background: linear-gradient(135deg, #1a1a2e 0%, #3b82f6 100%);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5rem;
+  color: white;
 }
 
-.registration-header h1 {
-  font-size: 2rem;
-  color: #2d3748;
-  margin: 0.5rem 0;
-}
-
-.back-button {
+.reg-floating-orb {
   position: absolute;
-  left: 0;
-  background: none;
-  border: none;
-  color: #4a5568;
-  font-size: 1rem;
-  cursor: pointer;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 1;
+}
+
+.reg-brand-context {
+  position: relative;
+  z-index: 2;
+}
+
+.reg-visual-title {
+  font-family: var(--font-display);
+  font-size: 4.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  color: white;
+  letter-spacing: -0.04em;
+}
+
+.reg-visual-subtitle {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  max-width: 450px;
+  line-height: 1.6;
+}
+
+/* Form Side */
+.reg-form-side {
+  flex: 1.5; /* Slightly wider for grid */
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  padding: 4rem;
+  background-color: white;
+  position: relative;
+  overflow-y: auto;
 }
 
-.back-button:hover {
-  color: #2d3748;
+.reg-auth-card {
+  width: 100%;
+  max-width: 600px;
 }
 
-.registration-form {
+.reg-auth-header {
+  margin-bottom: 3rem;
+}
+
+.reg-auth-header h2 {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: var(--accent-primary);
+}
+
+.reg-auth-header p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Form Layout */
+.reg-auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
-.form-grid {
+.reg-form-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
 
-.form-group {
+.reg-input-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.form-group.full-width {
+.reg-input-group.full-width {
   grid-column: span 2;
 }
 
-.form-group label {
-  font-size: 0.9rem;
-  color: #4a5568;
-  font-weight: 500;
+.reg-input-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-  padding: 0.75rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
+.reg-input-group input, 
+.reg-input-group select {
+  padding: 1rem;
   font-size: 1rem;
-  transition: all 0.2s;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background-color: var(--bg-secondary);
+  transition: var(--transition-smooth);
+  font-family: var(--font-body);
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.reg-input-group input:focus,
+.reg-input-group select:focus {
   outline: none;
-  border-color: #4299e1;
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+  border-color: var(--accent-secondary);
+  background-color: white;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
-.form-group textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-.submit-button {
-  background-color: #4299e1;
+.reg-auth-button {
+  background-color: var(--accent-primary);
   color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 0.75rem;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
+  padding: 1.25rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
   margin-top: 1rem;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 12px rgba(26, 26, 46, 0.2);
 }
 
-.submit-button:hover {
-  background-color: #3182ce;
+.reg-auth-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26, 26, 46, 0.3);
+  background-color: #252542;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .form-grid {
+.reg-auth-footer {
+  margin-top: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.reg-auth-footer a {
+  color: var(--accent-secondary);
+  font-weight: 600;
+}
+
+.reg-auth-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .reg-visual-side {
+    display: none;
+  }
+  .reg-form-side {
+    padding: 2rem;
+    background-color: var(--bg-secondary);
+  }
+  .reg-auth-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+  }
+}
+
+@media (max-width: 600px) {
+  .reg-form-grid {
     grid-template-columns: 1fr;
   }
-  
-  .form-group.full-width {
+  .reg-input-group.full-width {
     grid-column: span 1;
-  }
-  
-  .registration-container {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .registration-header h1 {
-    font-size: 1.5rem;
-  }
-  
-  .brand-registration-page {
-    padding: 1rem;
   }
 }
